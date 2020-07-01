@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtext}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+
+
+\begin{document}
+
+Пусть существует система:
+\begin{equation}
+x_{s,t+1} = f(x_{s,t}, \theta_k): \quad T \in Z; \quad t=0,1,\cdots ,T; \quad S \in Z\\ 
+\end{equation}
+где $ \theta := \{\theta_t : t = 0\cdots T - 1 \}$ является неким парамертом, зависимым от $f_t$\\.
+Рассмотрим задачу оптимального управления, которая заключается в нахождении такой системы $x_{s,t+1} = f*(x_s,t, \theta_k)$, что функция потерь
+   \\ $\Phi(f*(x_{s,t}, \theta_k),f(x_{s,t}, \theta_k))$
+будет минимальна. Введем дополнительную функция регурялизации $L_t(x_s,t, \theta_k)$ для коррекции (уменьшения) ошибки работы нижеописанного алгоритма.  
+
+\begin{equation}
+    \Phi(f'(x_{s,t}, \theta_k),f(x_{s,t}, \theta_k))\rightarrow min
+\end{equation}
+Минимизируммый, в рамках данной задачи, функционал $\Phi (\theta)\rightarrow min$ можно предавить в виде:
+\begin{equation}
+    \Phi(\theta):=\frac1S\sum\limits_{s=1}^S \Phi_s(x_{s,T})+ \frac1S\sum\limits_{s=1}^S\sum\limits_{t=1}^{T-1} L_t(x_{s,t},\theta_t)
+\end{equation}
+Данную задачу оптимального управления будем решать с помощью принципа максимума Понтрягина (далее ПМП) и метод последовательных приблежений. Первый обеспечет существование оптимального допустимого управления. Для этого введем функцию Гамильтона
+\begin{equation}
+    H_t(x,p,\theta):= p*f_t(x,\theta)+ \frac1S L_t(x,\theta)
+\end{equation}
+
+Использование ПМП накладывает следующее ограничения:
+\begin{itemize}
+\item система $f_t(x_{s,t},\theta_t)$ дифференцируема по $\theta$ для $t=0,\cdots,T$ 
+\item $H_t(x,p,\theta)$ выпукла на множестве $\theta$  
+\item $\nabla_\theta \sum H_t=0$ для  $t=0,\cdots,T$
+\end{itemize}
+
+Метод последовательных приблежений определяет итерационный процесс, целью которого является оптимизация параметра $\theta$.
+\begin{equation}
+    x_{s,t+1}^{\theta^0} = f_t(x_{s,t}^{\theta^0},\theta_t^0), \quad
+    x_{s,t+1}^{\theta^0} = x_s,0
+\end{equation}
+\begin{equation}
+    p_{s,t}^{\theta^0} = \nabla_x( x_{s,t}^{\theta^0}, p_{s,t+1}^{\theta^0}, \theta_t^0),  \quad
+    p_{s,T}^{\theta^0} = -\frac1S \nabla \Phi_s(x_{s,T}^{\theta^0})
+\end{equation}
+\begin{equation}
+    \theta_t = argmax \sum\limits_{s=1}^{S} \quad
+    H_t(x_{s,t}^{\theta^0},p_{s, t+1}^{\theta^0},\theta_t^0),
+    t=0,\cdots,T-1
+\end{equation}
+
+Ограничения для использования метода последовательных приблежений:
+\begin{itemize}
+\item $\Phi_s$ дважды неприрывно дифференциируема, а отображение $\Phi_s$ в $\nabla \Phi_s$ является Липшицевым.
+\item  $f_t(*,\theta)$ и $L_t(*,\theta)$ дважды неприрывно дифференцирумыми по x, при этом 
+$f_t,\nabla_x f_t,L_t,\nabla_x L_t $ удволетворяют условиям Липшица  по  x, t и $\theta$
+
+\end{itemize}
+
+\end{document}
